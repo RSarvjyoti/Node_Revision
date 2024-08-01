@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/register" method="post" enctype="multipart/form-data">
+      <input type="file" name="avatar" />
+      <input type="submit" name="upload">
+    </form>
+  </body>
+</html>
+
+<script>
+  document.querySelector("button").addEventListener("click", () => {
+    fetch("/todos")
+      .then((d) => d.json())
+      .then((d) => console.log(d))
+      .catch((err) => console.log(err));
+  });
+</script>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button style="color: red">click</button>
+  </body>
+</html>
+<script>
+  document.querySelector("button").addEventListener("click", () => {
+    alert("button is clicked");
+  });
+  fetch("/todos")
+    .then((d) => d.json())
+    .then((d) => {
+      console.log(d);
+    });
+</script>
