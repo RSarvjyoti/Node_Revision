@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup page</title>
+</head>
+<body>
+    <input type="text" placeholder="Username..." id="username"><br><br>
+    <input type="email" placeholder="Email..." id="email"><br><br>
+    <input type="password" placeholder="Password..." id="password"><br><br>
+    <button id="signup">Signup</button>
+</body>
+
+<script>
+    const username = document.getElementById("username");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    const btn = document.getElementById("signup");
+
+    btn.addEventListener("click", () =>{
+        fetch('/user/register', {
+            method : "POST",
+            headers: {'Content-Type' : "application/json"},
+            body : JSON.stringify({
+                username : username.value,
+                email : email.value,
+                password : password.value
+            })
+        }).then(d=>d.json()).then((d) => window.location.href = "/login.html" )
+        .catch(err => console.log(err));
+    })
+
+</script>
+
+</html>
+

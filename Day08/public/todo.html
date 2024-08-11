@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<body>
+    
+    <h1>Todo page</h1>
+    <button id="btn">Get Todo</button>
+
+</body>
+</html>
+
+<script>
+    const btn = document.getElementById('btn');
+    btn.addEventListener("click", () => {
+        fetch('/todo', {
+            method : "GET",
+            headers: {'Content-Type' : "application/json", Authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhcnZqeW90aTY0QGdtYWlsLmNvbSIsImlhdCI6MTcyMzM3MDE2NH0.bC8W0qy3wJ7Fc9e2GoXwC7k9KYbdafhK6sAMuHv9NQ8` },
+
+        }).then(d=>d.json()).then((d) => console.log(d))
+        .catch(err => console.log(err));
+    })
+</script>
