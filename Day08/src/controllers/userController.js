@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+const tokenBlockModel = require("../models/blockTokenModel");
 require("dotenv").config();
 
 const registerUser = async (req, res) => {
@@ -79,7 +80,21 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
     try{
-        res.send("logout route")
+
+        // How is it work => block the token
+        // How to block the token => create saperate collection => tolenblocklist
+
+        const header = req.headers.authorization;
+
+        if(!header) {
+           res.json({message : "Token header is not present"})
+        }
+
+        const token = header.split(" ")[1];
+
+        const blockList = await tokenBlockModel.create(token);
+        res.status(200).json({message : "Logout successfully!"})
+
     }catch(err) {
         console.log(err);
         res.status(500).json({message : "Internal server error"});
