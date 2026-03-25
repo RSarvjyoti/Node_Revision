@@ -1,11 +1,12 @@
 const express = require("express");
+const Note = require("./models/note.model");
 
 const app = express();
 app.use(express.json());
 
 // const notes = [];
 
-// /* 
+// /*
 //  title, description
 // */
 // // POST
@@ -47,21 +48,83 @@ app.use(express.json());
 // })
 
 // CRUD with database => mongodb
+app.post("/notes", async (req, res) => {
+  const data = req.body;
+  try {
+    await Note.create({
+      title: data.title,
+      description: data.description,
+    });
+    res.status(201).json({
+      message: "Added note",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Enternal server error",
+      error: err,
+    });
+  }
+});
 
-app.post('/notes', (req, res) => {
+// find
+app.get("/notes", async (req, res) => {
+  const notes = await Note.find();
+  res.status(200).json({
+    message: "notes feched",
+    notes: notes,
+  });
+});
 
+// find One
+app.get("/note", async (req, res) => {
+  const notes = await Note.findOne({
+    title: "Note 1"
+  });
+  res.status(200).json({
+    message: "notes feched",
+    notes: notes,
+  });
+});
+
+// update 
+app.patch('/notes/:id', async (req, res) => {
+    const id = req.params.id;
+    const title = req.body.title;
+    await Note.findByIdAndUpdate(
+        {
+            _id: id
+        },{
+            title: title
+        }
+    )
+    res.status(200).json({
+        message: "Note Updated using patch"
+    })
 })
 
-// app.get('/notes', (req, res) => {
+// update all using put
 
-// })
+app.put('/notes/:id', async(req, res) => {
+    const id = req.params.id;
+    const {title, description} = req.body
+    await Note.findByIdAndUpdate(
+        {_id: id},{title: title, description: description}
+    )
+    res.status(200).json({
+        message: "Note Updated using Put"
+    })
+})
 
-// app.patch('/notes/:id', (req, res) => {
+// delete
+app.delete('/notes/:id', async (req, res) => {
+    const id = req.params.id;
+    await Note.findOneAndDelete({
+        _id: id
+    })
 
-// })
-
-// app.delete('/notes/:id', (req, res) => {
-
-// })
+    res.status(200).json({
+        message: "deleted note"
+    })
+})
 
 module.exports = app;
